@@ -24,7 +24,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-	player_->Update();
+	 player_->Update();
 }
 
 void GameScene::Draw() {
