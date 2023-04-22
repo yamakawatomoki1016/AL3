@@ -4,16 +4,28 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { 
+	delete model_;
+}
 
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	uint32_t textureHandle_ = TextureManager::Load("./Resources/sample.png");
+	model_ = Model::Create();
+	viewProjection_.Initialize();
+	//自キャラの生成
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initialize();
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() { 
+	player_->Update();
+}
 
 void GameScene::Draw() {
 
