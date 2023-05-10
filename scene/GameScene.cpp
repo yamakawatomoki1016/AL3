@@ -6,6 +6,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
 	delete model_;
+	delete player_;
 }
 
 void GameScene::Initialize() {
@@ -53,6 +54,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	//自キャラの描画
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
