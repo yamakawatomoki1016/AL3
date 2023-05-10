@@ -14,13 +14,14 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	uint32_t textureHandle_ = TextureManager::Load("./Resources/sample.png");
+	textureHandle_ = TextureManager::Load("./Resources/sample.png");
 	model_ = Model::Create();
+	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initialize();
+	player_->Initialize(model_,textureHandle_);
 
 }
 
@@ -55,7 +56,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//自キャラの描画
-	player_->Draw();
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
