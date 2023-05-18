@@ -9,11 +9,6 @@ Player::~Player() {
 
 void Player::Attack() {
 	if (input_->PushKey(DIK_SPACE)) {
-		//弾があれば解放する
-		if (bullet_) {
-			delete bullet_;
-			bullet_ = nullptr;
-		}
 		PlayerBullet* newBulllet = new PlayerBullet();
 		newBulllet->Initialize(model_, worldTransform_.translation_);
 		// 弾を登録する
