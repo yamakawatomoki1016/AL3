@@ -5,6 +5,7 @@
 #include <cassert>
 #include "Input.h"
 #include "ImGuiManager.h"
+#include "PlayerBullet.h"
 
 ///<summary>
 ///自キャラ
@@ -29,6 +30,11 @@ class Player {
 		///</summary>
 	    void Draw(ViewProjection viewProjection_);
 
+	    /// <summary>
+	    /// 攻撃
+	    /// </summary>
+	    void Attack();
+
 	private:
 		//ワールド変換データ
 	    WorldTransform worldTransform_;
@@ -40,4 +46,6 @@ class Player {
 	    Input* input_ = nullptr;
 	    // ImGUiで値を入力する変数
 	    float inputFloat3[3] = {0, 0, 0};
+		//弾
+	    PlayerBullet* bullet_ = nullptr;
 };
