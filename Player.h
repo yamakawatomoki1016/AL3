@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "ImGuiManager.h"
 #include "PlayerBullet.h"
+#include <list>
 
 ///<summary>
 ///自キャラ
@@ -35,6 +36,11 @@ class Player {
 	    /// </summary>
 	    void Attack();
 
+	    /// <summary>
+	    /// デストラクタ
+	    /// </summary>
+	    ~Player();
+
 	private:
 		//ワールド変換データ
 	    WorldTransform worldTransform_;
@@ -48,4 +54,6 @@ class Player {
 	    float inputFloat3[3] = {0, 0, 0};
 		//弾
 	    PlayerBullet* bullet_ = nullptr;
+		//弾
+	    std::list<PlayerBullet*> bullets_;
 };

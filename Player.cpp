@@ -1,12 +1,24 @@
 ﻿#include "Player.h"
 #include "MathFunction.h"
 
+Player::~Player() { 
+	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Player::Attack() {
 	if (input_->PushKey(DIK_SPACE)) {
+		//弾があれば解放する
+		if (bullet_) {
+			delete bullet_;
+			bullet_ = nullptr;
+		}
 		PlayerBullet* newBulllet = new PlayerBullet();
 		newBulllet->Initialize(model_, worldTransform_.translation_);
 		// 弾を登録する
 		bullet_ = newBulllet;
+		bullets_.push_back(newBulllet);
 	}
 }
 
@@ -88,6 +100,11 @@ void Player::Update() {
 		bullet_->Update();
 	}
 
+	//弾更新
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
+	}
+
 }
 
 
@@ -97,4 +114,10 @@ void Player::Draw(ViewProjection viewProjection_) {
 	if (bullet_) {
 		bullet_->Draw(viewProjection_);
 	}
+
+	//弾の描画
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
+	}
+
 }
