@@ -41,6 +41,7 @@ class Player {
 	    /// </summary>
 	    ~Player();
 
+
 	private:
 		//ワールド変換データ
 	    WorldTransform worldTransform_;
@@ -56,4 +57,5 @@ class Player {
 	    PlayerBullet* bullet_ = nullptr;
 		//弾
 	    std::list<PlayerBullet*> bullets_;
+	    int count = 0;
 };

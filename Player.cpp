@@ -9,11 +9,19 @@ Player::~Player() {
 
 void Player::Attack() {
 	if (input_->PushKey(DIK_SPACE)) {
-		PlayerBullet* newBulllet = new PlayerBullet();
-		newBulllet->Initialize(model_, worldTransform_.translation_);
-		// 弾を登録する
-		bullet_ = newBulllet;
-		bullets_.push_back(newBulllet);
+		if (count == 0) {
+			// 弾の速度
+			const float kBulletSpeed = 1.0f;
+			Vector3 velocity(0, 0, kBulletSpeed);
+			PlayerBullet* newBulllet = new PlayerBullet();
+			newBulllet->Initialize(model_, worldTransform_.translation_, velocity);
+			// 弾を登録する
+			bullet_ = newBulllet;
+			bullets_.push_back(newBulllet);
+			count++;
+		}
+	} else {
+		count = 0;
 	}
 }
 
