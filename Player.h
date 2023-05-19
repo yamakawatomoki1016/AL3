@@ -54,7 +54,7 @@ class Player {
 	    // ImGUiで値を入力する変数
 	    float inputFloat3[3] = {0, 0, 0};
 		//弾
-	    PlayerBullet* bullet_ = nullptr;
+	    //PlayerBullet* bullet_ = nullptr;
 		//弾
 	    std::list<PlayerBullet*> bullets_;
 	    int count = 0;

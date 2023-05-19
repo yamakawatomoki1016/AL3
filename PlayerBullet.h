@@ -24,12 +24,19 @@ public:
 	/// </summary>
 	/// <param name="ViewProjection">ビュープロジェクション</param>
 	void Draw(const ViewProjection& ViewProjection);
-
+	bool IsDead() const { return isDead_; }
 	private:
 	WorldTransform worldTransform_;
 	Model* model_;
 	uint32_t texturehandle_;
 	//速度
 	Vector3 velocity_;
-	Vector3 Add(Vector3& a, Vector3& b);
+	//Vector3 Add(Vector3& a, Vector3& b);
+	//寿命<frm>
+	static const int32_t kLifeTime = 60 ;
+	//デスタイマー
+	int32_t deathtimer_ = kLifeTime;
+	//デスフラグ
+	bool isDead_ = false;
+	
 };
