@@ -11,21 +11,8 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 }
 
 void Enemy::Update() {
+	(this->*EfuncTable[static_cast<size_t>(phase_)])();
 	worldTransform_.UpdateMatrix();
-	/*worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);*/
-	switch (phase_) {
-	case Phase::Approach:
-		Approach();
-		break;
-	case Phase::Leave:
-		Leave();
-		break;
-	case Phase::start:
-
-		break;
-	default:
-		break;
-	}
 }
 
 void Enemy::Approach() {
@@ -44,3 +31,8 @@ void Enemy::Leave() {
 
 	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
 }
+
+void (Enemy::*Enemy::EfuncTable[])() = {
+    &Enemy::Approach, &Enemy::Leave
+
+};

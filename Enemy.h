@@ -29,5 +29,6 @@ private:
 	Vector3 velocity_;
 	void Approach();
 	void Leave();
+	static void (Enemy::*EfuncTable[])();
 };
 
