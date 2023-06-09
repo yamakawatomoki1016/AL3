@@ -24,7 +24,9 @@ public:
 	/// </summary>
 	/// <param name="ViewProjection">ビュープロジェクション</param>
 	void Draw(const ViewProjection& ViewProjection);
+
 	bool IsDead() const { return isDead_; }
+
 	private:
 	WorldTransform worldTransform_;
 	Model* model_;
