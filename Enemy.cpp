@@ -1,5 +1,10 @@
 ﻿#include "Enemy.h"
 #include <assert.h>
+Enemy::~Enemy() {
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
 
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model);
@@ -11,8 +16,19 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 }
 
 void Enemy::Update() {
-	(this->*EfuncTable[static_cast<size_t>(phase_)])();
+	//(this->*EfuncTable[static_cast<size_t>(phase_)])();
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->isDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
 	worldTransform_.UpdateMatrix();
+	for (EnemyBullet* bullet : bullets_) {
+
+		bullet->Updarte();
+	}
 }
 
 void Enemy::Approach() {
@@ -25,11 +41,24 @@ void Enemy::Approach() {
 
 void Enemy::Draw(const ViewProjection& view) {
 	model_->Draw(worldTransform_, view, texturehandle_);
+	for (EnemyBullet* bullet : bullets_) {
+
+		bullet->Draw(view);
+	}
+}
+
+void Enemy::Fire() {
+	// 弾の速度
+	Vector3 velocity = {0.0f, 0.0f, -1.0f};
+	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+	// 生成と初期化
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	bullets_.push_back(newBullet);
 }
 
 void Enemy::Leave() {
-
-	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
+	//worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
 }
 
 void (Enemy::*Enemy::EfuncTable[])() = {
