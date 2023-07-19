@@ -56,7 +56,7 @@ void Enemy::Fire() {
 }
 
 void Enemy::Leave() {
-	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
+	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.1f, 0.5f, 0.0f});
 }
 
 void (Enemy::*Enemy::EfuncTable[])() = {
