@@ -5,7 +5,7 @@ class EnemyBullet {
 public:
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 
-	void Updarte();
+	void Update();
 
 	void Draw(const ViewProjection& view);
 
@@ -17,8 +17,6 @@ private:
 	uint32_t texturehandle_;
 	Vector3 velocity_;
 	static const int32_t kLifeTime = 10 * 2;
-
 	int32_t deathTimer_ = kLifeTime;
-
 	bool isDead_ = false;
 };

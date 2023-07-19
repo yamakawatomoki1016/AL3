@@ -10,7 +10,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	velocity_ = velocity;
 }
 
-void EnemyBullet::Updarte() {
+void EnemyBullet::Update() {
 	worldTransform_.UpdateMatrix();
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	if (--deathTimer_ <= 0) {
