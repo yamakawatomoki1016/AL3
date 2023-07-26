@@ -32,10 +32,11 @@ void Enemy::Update() {
 
 void Enemy::Approach() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	fireTimer++;
 	if (fireTimer <= 1) {
 		Fire();
 	}
-	if (worldTransform_.translation_.z < -15.0f) {
+	if (worldTransform_.translation_.z < -20.0f) {
 		phase_ = Phase::Leave;
 	}
 }
@@ -56,7 +57,7 @@ void Enemy::Fire() {
 }
 
 void Enemy::Leave() {
-	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
+	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.2f, 0.2f, 0.0f});
 }
 
 void (Enemy::*Enemy::EfuncTable[])() = {
