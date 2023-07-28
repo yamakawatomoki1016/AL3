@@ -4,6 +4,7 @@
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
 
+class Player;
 /// <summary>
 /// 敵
 /// </summary>
@@ -18,6 +19,8 @@ public:
 	void Draw(const ViewProjection& view);
 
 	void Fire();
+
+	void SetPlayer(Player* player) { player_ = player; }
 
 	static const int kFireInterval = 60;
 	int32_t fireTimer;
@@ -39,5 +42,6 @@ private:
 	void Leave();
 	static void (Enemy::*EfuncTable[])();
 	std::list<EnemyBullet*> bullets_;
+	Player* player_ = nullptr;
 };
 
