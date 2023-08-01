@@ -7,6 +7,7 @@
 #include "ImGuiManager.h"
 #include "PlayerBullet.h"
 #include <list>
+#include <Sprite.h>
 
 class GameScene;
 ///<summary>
@@ -25,7 +26,7 @@ class Player {
 		///<summary>
 		///更新
 		///</summary>
-	    void Update();
+	    void Update(const ViewProjection viewProjection);
 
 		///<summary>
 		///描画
@@ -51,6 +52,8 @@ class Player {
 
 		void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
+		void DrawUI();
+
 	private:
 		//ワールド変換データ
 	    WorldTransform worldTransform_;
@@ -68,4 +71,6 @@ class Player {
 	    std::list<PlayerBullet*> bullets_;
 	    int count = 0;
 	    GameScene* gameScene_ = nullptr;
+	    WorldTransform worldTransform3DReticle_;
+	    Sprite* sprite2DReticle_ = nullptr;
 };

@@ -24,6 +24,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	textureHandle_ = TextureManager::Load("./Resources/sample.png");
+	TextureManager::Load("reticle.png");
 	model_ = Model::Create();
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
@@ -52,7 +53,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-	 player_->Update();
+	 player_->Update(viewProjection_);
 	for (Enemy* enemy : enemys_) {
 		enemy->Update();
 	}
@@ -140,7 +141,7 @@ void GameScene::Draw() {
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(commandList);
-
+	player_->DrawUI();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
