@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "DebugCamera.h"
 #include "Enemy.h"
+#include "Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -55,6 +56,8 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
 	Enemy* enemy_ = nullptr;
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 
 private:
 	void CheckAllCollisions();

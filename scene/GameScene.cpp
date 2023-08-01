@@ -10,10 +10,10 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamera_;
 	delete enemy_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
-
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -21,6 +21,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
@@ -35,6 +36,8 @@ void GameScene::Initialize() {
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_);
 	// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
@@ -64,6 +67,7 @@ void GameScene::Update() {
 	}
 #endif
 	debugCamera_->Update();
+	skydome_->Update();
 }
 
 void GameScene::Draw() {
@@ -95,6 +99,7 @@ void GameScene::Draw() {
 	//自キャラの描画
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
