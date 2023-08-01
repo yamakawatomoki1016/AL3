@@ -107,7 +107,6 @@ void Player::Update() {
 	// ImGuiスライダー
 	ImGui::Begin("PlayerDebug");
 	ImGui::Text("DebugCamera Toggle : 0");
-	ImGui::Text("WorldPosX%f", GetWorldPosition().x);
 	ImGui::SliderFloat3("Positions", inputFloat3, -20.0f, 20.0f);
 	// ImGui終わり
 	ImGui::End();

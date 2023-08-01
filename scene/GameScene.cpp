@@ -11,6 +11,9 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	delete enemy_;
 	delete modelSkydome_;
+	for (EnemyBullet* bullet : enemyBullets_) {
+		delete bullet;
+	}
 }
 
 void GameScene::Initialize() {
@@ -27,6 +30,7 @@ void GameScene::Initialize() {
 	//自キャラの初期化
 	Vector3 playerPosition(0.0f, 0.0f, 50.0f);
 	player_->Initialize(model_,textureHandle_,playerPosition);
+	player_->SetGameScene(this);
 
 	//敵の生成
 	enemy_ = new Enemy;
@@ -34,6 +38,7 @@ void GameScene::Initialize() {
 	//敵の初期化
 	enemy_->SetPlayer(player_);
 	enemy_->Initialize(model_, position, {0,0,-0.5});
+	enemy_->SetGameScene(this);
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -51,6 +56,19 @@ void GameScene::Initialize() {
 void GameScene::Update() { 
 	 player_->Update();
 	enemy_->Update();
+	 enemyBullets_.remove_if([](EnemyBullet* bullet) {
+		 if (bullet->isDead()) {
+			 delete bullet;
+			 return true;
+		 }
+		 return false;
+	 });
+	for (EnemyBullet* bullet : enemyBullets_) {
+		bullet->Update();
+	}
+	if (enemy_->isDead()) {
+		delete enemy_;
+	}
 	 CheckAllCollisions();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
@@ -180,4 +198,12 @@ void GameScene::CheckAllCollisions() {
 		}
 	}
 	#pragma endregion
+}
+
+void GameScene::AddPlayerBullet(PlayerBullet* playerBullet) {
+	playerBullets_.push_back(playerBullet);
+}
+
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { 
+	enemyBullets_.push_back(enemyBullet); 
 }

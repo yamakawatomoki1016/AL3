@@ -8,6 +8,7 @@
 #include "PlayerBullet.h"
 #include <list>
 
+class GameScene;
 ///<summary>
 ///自キャラ
 ///</summary>
@@ -48,6 +49,8 @@ class Player {
 
 		void SetParent(const WorldTransform* parent);
 
+		void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 	private:
 		//ワールド変換データ
 	    WorldTransform worldTransform_;
@@ -64,4 +67,5 @@ class Player {
 		//弾
 	    std::list<PlayerBullet*> bullets_;
 	    int count = 0;
+	    GameScene* gameScene_ = nullptr;
 };

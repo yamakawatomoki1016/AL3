@@ -4,6 +4,7 @@
 #include "EnemyBullet.h"
 #include "MathFunction.h"
 
+class GameScene;
 class Player;
 /// <summary>
 /// 敵
@@ -22,6 +23,8 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 	Vector3 GetWorldPosition();
 
 	static const int kFireInterval = 60;
@@ -29,6 +32,8 @@ public:
 
 	void OnCollision();
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+	bool isDead();
 
 private:
 	// 行動フェーズ
@@ -48,5 +53,7 @@ private:
 	static void (Enemy::*EfuncTable[])();
 	std::list<EnemyBullet*> bullets_;
 	Player* player_ = nullptr;
+	GameScene* gameScene_;
+	bool isDead_;
 };
 

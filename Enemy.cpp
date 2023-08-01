@@ -1,10 +1,8 @@
 ﻿#include "Enemy.h"
 #include <assert.h>
 # include "Player.h"
+#include "GameScene.h"
 Enemy::~Enemy() {
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
 }
 
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
@@ -18,17 +16,7 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 
 void Enemy::Update() {
 	(this->*EfuncTable[static_cast<size_t>(phase_)])();
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->isDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
 	worldTransform_.UpdateMatrix();
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
 }
 
 void Enemy::Approach() {
@@ -67,7 +55,7 @@ void Enemy::Fire() {
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 	//弾を登録する
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 Vector3 Enemy::GetWorldPosition() { 
@@ -81,7 +69,7 @@ Vector3 Enemy::GetWorldPosition() {
 	
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { isDead_ = true; }
 
 void Enemy::Leave() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.0f, 0.0f, 0.5f});
@@ -89,6 +77,8 @@ void Enemy::Leave() {
 		phase_ = Phase::Approach;
 	}
 }
+
+bool Enemy::isDead() { return isDead_; }
 
 void (Enemy::*Enemy::EfuncTable[])() = {
     &Enemy::Approach, &Enemy::Leave
