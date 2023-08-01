@@ -34,9 +34,6 @@ void Enemy::Approach() {
 
 void Enemy::Draw(const ViewProjection& view) {
 	model_->Draw(worldTransform_, view, texturehandle_);
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Draw(view);
-	}
 }
 
 void Enemy::Fire() {

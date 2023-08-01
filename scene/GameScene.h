@@ -15,6 +15,8 @@
 #include "RailCamera.h"
 #include "EnemyBullet.h"
 #include "PlayerBullet.h"
+#include <sstream>
+#include <string>
 
 /// <summary>
 /// ゲームシーン
@@ -62,16 +64,22 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
-	Enemy* enemy_ = nullptr;
+	//Enemy* enemy_ = nullptr;
 	Skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	RailCamera* railCamera_ = nullptr;
 	std::list<EnemyBullet*> enemyBullets_;
 	std::list<PlayerBullet*> playerBullets_;
+	std::stringstream enemyPopCommands;
+	std::list<Enemy*> enemys_;
+	int popWaitTimer_;
+	bool popWaitFlag_;
 
 private:
 	void CheckAllCollisions();
-
+	void LoadEnemyPopData();
+	void UpdateEnemyPopCommands();
+	void EnemyPop(Vector3 position);
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
