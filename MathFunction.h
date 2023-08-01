@@ -1,17 +1,32 @@
 ﻿#pragma once
-
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include <assert.h>
 #include <cmath>
 
-inline Vector3 Add(const Vector3& v1, const Vector3& v2) {
-	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
-	return result;
+inline Vector3 Add(Vector3 a, Vector3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
+
+inline Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
+	return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
 }
+
+inline float Length(const Vector3& v) { return sqrtf((v.x * v.x) + (v.y * v.y) + (v.z * v.z)); }
+
+inline Vector3 Normalize(const Vector3& v) {
+	float len = Length(v);
+	if (len != 0) {
+		return {v.x / len, v.y / len, v.z / len};
+	}
+	return v;
+}
+
+// inline Vector3 Add(const Vector3& v1, const Vector3& v2) {
+//	Vector3 result;
+//	result.x = v1.x + v2.x;
+//	result.y = v1.y + v2.y;
+//	result.z = v1.z + v2.z;
+//	return result;
+// }
 
 inline Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	Matrix4x4 result;
@@ -173,7 +188,8 @@ inline Matrix4x4 MakeRotateZMatrix(float radian) {
 	return result;
 }
 
-inline Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+inline Matrix4x4
+    MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
@@ -202,12 +218,10 @@ inline Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, c
 	return result;
 }
 
-//ベクトル変換
-Vector3 inline TransformNormal(const Vector3& v, const Matrix4x4& m) {
+inline Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 	Vector3 result{
 	    v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0],
 	    v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1],
 	    v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2]};
 	return result;
 }
-

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "MathFunction.h"
 #include "Model.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
@@ -21,6 +20,8 @@ public:
 	void Fire();
 
 	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetworldPosition();
 
 	static const int kFireInterval = 60;
 	int32_t fireTimer;
