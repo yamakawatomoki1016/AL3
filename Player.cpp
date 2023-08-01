@@ -8,9 +8,7 @@ Player::~Player() {
 }
 
 Vector3 Player::GetWorldPosition() {
-	//ワールド座標を入れる変数
 	Vector3 worldPos;
-	//ワールド行列の平行移動成分を取得(ワールド座標）
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
@@ -18,6 +16,8 @@ Vector3 Player::GetWorldPosition() {
 }
 
 void Player::OnCollision() {}
+
+void Player::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
 void Player::Attack() {
 	if (input_->PushKey(DIK_SPACE)) {
@@ -28,7 +28,7 @@ void Player::Attack() {
 			// 速度ベクトルの自機の向きに合わせて回転させる
 			velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 			PlayerBullet* newBulllet = new PlayerBullet();
-			newBulllet->Initialize(model_, worldTransform_.translation_, velocity);
+			newBulllet->Initialize(model_, GetWorldPosition(), velocity);
 			// 弾を登録する
 			bullets_.push_back(newBulllet);
 			count++;
@@ -39,7 +39,7 @@ void Player::Attack() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) { 
+void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 position) { 
 	//NULLポインタチェック
 	assert(model);
 
@@ -47,6 +47,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
 	input_ = Input::GetInstance();
+	worldTransform_.translation_ = Add(worldTransform_.translation_, position);
 }
 
 void Player::Update() {
@@ -59,11 +60,9 @@ void Player::Update() {
 		return false;
 	});
 	// 行列更新
-	worldTransform_.TransferMatrix();
+	worldTransform_.UpdateMatrix();
 	//キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
-
-	
 
 	//キャラクターの移動速さ
 	const float kCharacterSpeed = 0.2f;
@@ -108,6 +107,7 @@ void Player::Update() {
 	// ImGuiスライダー
 	ImGui::Begin("PlayerDebug");
 	ImGui::Text("DebugCamera Toggle : 0");
+	ImGui::Text("WorldPosX%f", GetWorldPosition().x);
 	ImGui::SliderFloat3("Positions", inputFloat3, -20.0f, 20.0f);
 	// ImGui終わり
 	ImGui::End();

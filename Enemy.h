@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
+#include "MathFunction.h"
 
 class Player;
 /// <summary>

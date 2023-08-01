@@ -12,6 +12,7 @@
 #include "DebugCamera.h"
 #include "Enemy.h"
 #include "Skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -58,6 +59,7 @@ private: // メンバ変数
 	Enemy* enemy_ = nullptr;
 	Skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
+	RailCamera* railCamera_ = nullptr;
 
 private:
 	void CheckAllCollisions();

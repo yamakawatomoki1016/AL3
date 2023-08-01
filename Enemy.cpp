@@ -1,6 +1,5 @@
 ﻿#include "Enemy.h"
 #include <assert.h>
-#include "MathFunction.h"
 # include "Player.h"
 Enemy::~Enemy() {
 	for (EnemyBullet* bullet : bullets_) {
@@ -74,7 +73,6 @@ void Enemy::Fire() {
 Vector3 Enemy::GetWorldPosition() { 
 	//ワールド座標を取得
 	Vector3 worldPos;
-	worldTransform_.UpdateMatrix();
 	//ワールド行列の平行移動成分を取得(ワールド座標)
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
