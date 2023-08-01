@@ -28,7 +28,7 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	Vector3 playerPosition(0.0f, 0.0f, 50.0f);
+	Vector3 playerPosition(0.0f, 0.0f, 30.0f);
 	player_->Initialize(model_,textureHandle_,playerPosition);
 	player_->SetGameScene(this);
 
@@ -122,6 +122,9 @@ void GameScene::Draw() {
 	//自キャラの描画
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	for (EnemyBullet* bullet : enemyBullets_) {
+		bullet->Update();
+	}
 	skydome_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -180,9 +183,8 @@ void GameScene::CheckAllCollisions() {
 		}
 	}
 	#pragma endregion
-
-	//自弾と敵弾の当たり判定
-	#pragma region
+	
+	#pragma region 自弾と敵弾の当たり判定
 	for (EnemyBullet* enemyBullet : enemyBullets) {
 		posA = enemyBullet->GetWorldPosition();
 		for (PlayerBullet* playerBullet : playerBullets) {
