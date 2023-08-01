@@ -44,6 +44,7 @@ void GameScene::Initialize() {
 void GameScene::Update() { 
 	 player_->Update();
 	enemy_->Update();
+	 CheckAllCollisions();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
 		isDebugCameraActive_ = true;
@@ -110,4 +111,63 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::CheckAllCollisions() { 
+	Vector3 posA, posB;
+	float playerRadius = 1.0f;
+	float enemyRadius = 1.0f;
+	float playerBulletRadius = 0.5f;
+	float enemyBulletRadius = 0.5f;
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+	
+#pragma region 自キャラと敵弾の当たり判定
+	posA = player_->GetWorldPosition();
+	for (EnemyBullet* bullet : enemyBullets) {
+		posB = bullet->GetWorldPosition();
+		Vector3 distance = {
+		    (posB.x - posA.x) * (posB.x - posA.x), (posB.y - posA.y) * (posB.y - posA.y),
+		    (posB.z - posA.z) * (posB.z - posA.z)};
+		if ((playerRadius + enemyBulletRadius) * (playerRadius + enemyBulletRadius) >=
+		    distance.x + distance.y + distance.z) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+	#pragma endregion
+
+	
+#pragma region 自弾と敵キャラの当たり判定
+	posA = enemy_->GetWorldPosition();
+	for (PlayerBullet* bullet : playerBullets) {
+		posB = bullet->GetWorldPosition();
+		Vector3 distance = {
+		    (posB.x - posA.x) * (posB.x - posA.x), (posB.y - posA.y) * (posB.y - posA.y),
+		    (posB.z - posA.z) * (posB.z - posA.z)};
+		if ((enemyRadius + playerBulletRadius) * (enemyRadius + playerBulletRadius) >=
+		    distance.x + distance.y + distance.z) {
+			enemy_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+	#pragma endregion
+
+	//自弾と敵弾の当たり判定
+	#pragma region
+	for (EnemyBullet* enemyBullet : enemyBullets) {
+		posA = enemyBullet->GetWorldPosition();
+		for (PlayerBullet* playerBullet : playerBullets) {
+			posB = playerBullet->GetWorldPosition();
+			Vector3 distance = {
+			    (posB.x - posA.x) * (posB.x - posA.x), (posB.y - posA.y) * (posB.y - posA.y),
+			    (posB.z - posA.z) * (posB.z - posA.z)};
+			if ((enemyBulletRadius + playerBulletRadius) * (enemyBulletRadius + playerBulletRadius) >=
+			    distance.x + distance.y + distance.z) {
+ 				playerBullet->OnCollision();
+				enemyBullet->OnCollision();
+			}
+		}
+	}
+	#pragma endregion
 }

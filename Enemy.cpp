@@ -57,7 +57,7 @@ void Enemy::Fire() {
 	const float kBulletSpeed = 1.0f;
 
 	Vector3 PlayerPos = player_->GetWorldPosition();
-	Vector3 enemyPos = this->GetworldPosition();
+	Vector3 enemyPos = this->GetWorldPosition();
 	Vector3 velocity = Subtract(PlayerPos, enemyPos);
 	velocity = Normalize(velocity);
 	velocity.x *= kBulletSpeed;
@@ -71,7 +71,7 @@ void Enemy::Fire() {
 	bullets_.push_back(newBullet);
 }
 
-Vector3 Enemy::GetworldPosition() { 
+Vector3 Enemy::GetWorldPosition() { 
 	//ワールド座標を取得
 	Vector3 worldPos;
 	worldTransform_.UpdateMatrix();
@@ -82,6 +82,8 @@ Vector3 Enemy::GetworldPosition() {
 	return worldPos;
 	
 }
+
+void Enemy::OnCollision() {}
 
 void Enemy::Leave() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.0f, 0.0f, 0.5f});

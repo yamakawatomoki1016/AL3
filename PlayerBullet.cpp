@@ -34,3 +34,16 @@ void PlayerBullet::Update() {
 void PlayerBullet::Draw(const ViewProjection& view) {
 	model_->Draw(worldTransform_, view, texturehandle_);
 }
+
+void PlayerBullet::OnCollision() { isDead_ = true; }
+
+Vector3 PlayerBullet::GetWorldPosition() { 
+// ワールド座標を取得
+	Vector3 worldPos;
+	worldTransform_.UpdateMatrix();
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}

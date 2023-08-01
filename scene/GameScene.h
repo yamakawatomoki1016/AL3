@@ -56,6 +56,9 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
+private:
+	void CheckAllCollisions();
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

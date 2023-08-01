@@ -21,10 +21,13 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 
-	Vector3 GetworldPosition();
+	Vector3 GetWorldPosition();
 
 	static const int kFireInterval = 60;
 	int32_t fireTimer;
+
+	void OnCollision();
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// 行動フェーズ

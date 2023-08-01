@@ -27,6 +27,10 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	void OnCollision();
+
+	Vector3 GetWorldPosition();
+	
 	private:
 	WorldTransform worldTransform_;
 	Model* model_;
@@ -40,5 +44,4 @@ public:
 	int32_t deathtimer_ = kLifeTime;
 	//デスフラグ
 	bool isDead_ = false;
-	
 };
