@@ -60,7 +60,7 @@ void Player::Update() {
 		return false;
 	});
 	// 行列更新
-	worldTransform_.UpdateMatrix();
+	worldTransform_.TransferMatrix();
 	//キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
 
@@ -103,7 +103,7 @@ void Player::Update() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	// アフィン変換行列の作成
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
+	worldTransform_.UpdateMatrix();
 	// ImGuiスライダー
 	ImGui::Begin("PlayerDebug");
 	ImGui::Text("DebugCamera Toggle : 0");

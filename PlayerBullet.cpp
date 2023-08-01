@@ -13,6 +13,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	worldTransform_.Initialize();
 	//引数で受け取った初期座標をセット
 	worldTransform_.translation_ = position;
+	worldTransform_.UpdateMatrix();
 	//引数で受け取った速度をメンバ変数に代入
 	velocity_ = velocity;
 }
