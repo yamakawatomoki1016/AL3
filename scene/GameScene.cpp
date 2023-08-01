@@ -123,7 +123,7 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	for (EnemyBullet* bullet : enemyBullets_) {
-		bullet->Update();
+		bullet->Draw(viewProjection_);
 	}
 	skydome_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
