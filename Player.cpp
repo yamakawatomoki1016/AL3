@@ -111,7 +111,11 @@ void Player::Update(const ViewProjection viewProjection) {
 		move.y += kCharacterSpeed;
 		inputFloat3[1] = worldTransform_.translation_.y;
 	}
-
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
+		move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
+	}
 	//回転速さ[ラジアン/frame]
 	const float kRotSpeed = 0.02f;
 
@@ -121,10 +125,6 @@ void Player::Update(const ViewProjection viewProjection) {
 	} else if (input_->PushKey(DIK_D)) {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
-
-	// ImGui加算用
-	worldTransform_.translation_.x = inputFloat3[0];
-	worldTransform_.translation_.y = inputFloat3[1];
 
 	// ベクターの加算
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
@@ -167,7 +167,6 @@ void Player::Update(const ViewProjection viewProjection) {
 	Matrix4x4 matViewport = MakeViewportMatrix(0.0f, 0.0f, WinApp::kWindowWidth, WinApp::kWindowHeight, 0.0f, 1.0f);
 	Matrix4x4 matViewProjectionViewport = Multiply(Multiply(viewProjection.matView , viewProjection.matProjection ), matViewport);
 	positionRetcle = Transform(positionRetcle, matViewProjectionViewport);
-	sprite2DReticle_->SetPosition(Vector2(positionRetcle.x, positionRetcle.y));
 
     ////マウスの場合
     //POINT mousePosition;
@@ -179,19 +178,17 @@ void Player::Update(const ViewProjection viewProjection) {
     //sprite2DReticle_->SetPosition({(float)mousePosition.x, (float)mousePosition.y});
 
 	//コントローラーの場合
-	XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
-		move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
-	}
 	Vector2 spritePosition = sprite2DReticle_->GetPosition();
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		spritePosition.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
-		spritePosition.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+		move.x = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
+		move.y = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+		spritePosition.x += move.x;
+		spritePosition.y -= move.y;
 		sprite2DReticle_->SetPosition(spritePosition);
 	}
-	Matrix4x4 matVPV =
-        Multiply(Multiply(viewProjection.matView, viewProjection.matProjection), matViewport);
+	
+
+	Matrix4x4 matVPV = Multiply(Multiply(viewProjection.matView, viewProjection.matProjection), matViewport);
     Matrix4x4 matInverseVPV = Inverse(matVPV);
     Vector3 posNear = {(float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 0};
     Vector3 posFar = {(float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 1};
@@ -200,8 +197,7 @@ void Player::Update(const ViewProjection viewProjection) {
     Vector3 mouseDirection = Subtract(posFar, posNear);
     mouseDirection = Normalize(mouseDirection);
     const float kDistancetestObject = 100.0f;
-    worldTransform3DReticle_.translation_ =
-        Add(posNear, Multiply(kDistancetestObject, mouseDirection));
+    worldTransform3DReticle_.translation_ = Add(posNear, Multiply(kDistancetestObject, mouseDirection));
     worldTransform3DReticle_.UpdateMatrix();
 
 	ImGui::Begin("Player");
