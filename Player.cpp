@@ -177,6 +177,8 @@ void Player::Update(const ViewProjection viewProjection) {
     //HWND hwnd = WinApp::GetInstance()->GetHwnd();
     //ScreenToClient(hwnd, &mousePosition);
     //sprite2DReticle_->SetPosition({(float)mousePosition.x, (float)mousePosition.y});
+
+	//コントローラーの場合
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
@@ -191,10 +193,8 @@ void Player::Update(const ViewProjection viewProjection) {
 	Matrix4x4 matVPV =
         Multiply(Multiply(viewProjection.matView, viewProjection.matProjection), matViewport);
     Matrix4x4 matInverseVPV = Inverse(matVPV);
-    Vector3 posNear = {
-        (float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 0};
-    Vector3 posFar = {
-        (float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 1};
+    Vector3 posNear = {(float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 0};
+    Vector3 posFar = {(float)sprite2DReticle_->GetPosition().x, (float)sprite2DReticle_->GetPosition().y, 1};
     posNear = Transform(posNear, matInverseVPV);
     posFar = Transform(posFar, matInverseVPV);
     Vector3 mouseDirection = Subtract(posFar, posNear);
