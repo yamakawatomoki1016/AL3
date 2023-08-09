@@ -6,8 +6,8 @@ void EnemyStateManager::Update() {
 }
 
 void EnemyStateManager::ChangeState(IEnemyState* state) { 
-	state->Initialize(enemy_);
 	state_ = state;
+	state_->Initialize(enemy_);
 }
 
 void EnemyStateManager::Initialize(Enemy* enemy) { 
