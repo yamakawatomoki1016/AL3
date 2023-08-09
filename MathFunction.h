@@ -3,6 +3,9 @@
 #include "Vector3.h"
 #include <assert.h>
 #include <cmath>
+#include <algorithm>
+
+inline float fsf = 3.14159265f;
 
 inline Vector3 Add(Vector3 a, Vector3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
 
@@ -18,6 +21,39 @@ inline Vector3 Normalize(const Vector3& v) {
 		return {v.x / len, v.y / len, v.z / len};
 	}
 	return v;
+}
+
+inline Vector3 Multiply(float scalar, const Vector3& v) {
+	return {v.x * scalar, v.y * scalar, v.z * scalar};
+}
+
+inline Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
+	Vector3 result;
+	Vector3 v1v2 = Subtract(v2, v1);
+	result = Add(v1, Multiply(t, v1v2));
+	return result;
+}
+
+inline float Dot(const Vector3& v1, const Vector3& v2) {
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+inline float Acos(float value) { 
+	return std::acos(value); 
+}
+
+inline Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
+	float dot = Dot(v1, v2);
+	float theta = acos((dot * fsf) / 180);
+	float sinTheta = sin(theta);
+	float weightStart = sin((1 - t) * theta) / sinTheta;
+	float weightEnd = sin(t * theta) / sinTheta;
+
+	Vector3 result;
+	result.x = (weightStart * v1.x + weightEnd * v2.x);
+	result.y = (weightStart * v1.y + weightEnd * v2.y);
+	result.z = (weightStart * v1.z + weightEnd * v2.z);
+	return result;
 }
 
 // inline Vector3 Add(const Vector3& v1, const Vector3& v2) {

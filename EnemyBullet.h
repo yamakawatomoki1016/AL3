@@ -1,5 +1,6 @@
 #pragma once
 #include "Model.h"
+#include "Player.h"
 //#include <WorldTransform.h>
 class EnemyBullet {
 public:
@@ -11,6 +12,10 @@ public:
 
 	bool isDead() const { return isDead_; }
 
+	void SetPlayer(Player* player) { 
+		player_ = player;
+	}
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_;
@@ -19,4 +24,5 @@ private:
 	static const int32_t kLifeTime = 110;
 	int32_t deathTimer_ = kLifeTime;
 	bool isDead_ = false;
+	Player* player_;
 };
