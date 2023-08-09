@@ -2,6 +2,7 @@
 #include "MathFunction.h"
 #include "Model.h"
 #include "WorldTransform.h"
+#include "EnemyStateManager.h"
 
 /// <summary>
 /// 敵
@@ -13,6 +14,10 @@ public:
 	void Update();
 
 	void Draw(const ViewProjection& view);
+
+	void Move(Vector3 velocity);
+
+	Vector3 EnemyGetPos() { return worldTransform_.translation_; }
 
 private:
 	// 行動フェーズ
@@ -30,5 +35,6 @@ private:
 	void Approach();
 	void Leave();
 	static void (Enemy::*EfuncTable[])();
+	EnemyStateManager* stateManager_;
 };
 
