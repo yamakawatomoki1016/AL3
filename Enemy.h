@@ -2,12 +2,13 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
+#include "Collider.h"
 
 class Player;
 /// <summary>
 /// 敵
 /// </summary>
-class Enemy {
+class Enemy : public Collider{
 public:
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 
@@ -21,12 +22,12 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
 	static const int kFireInterval = 60;
 	int32_t fireTimer;
 
-	void OnCollision();
+	void OnCollision() override;
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 private:

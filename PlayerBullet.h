@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "Collider.h"
 
 ///<summary>
 ///自キャラの弾
 ///</summary>
-class PlayerBullet {
+class PlayerBullet : public Collider{
 public:
 	/// <summary>
 	/// 初期化
@@ -27,9 +28,9 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void OnCollision();
+	void OnCollision() override;
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 	
 	private:
 	WorldTransform worldTransform_;

@@ -7,11 +7,12 @@
 #include "ImGuiManager.h"
 #include "PlayerBullet.h"
 #include <list>
+#include "Collider.h"
 
 ///<summary>
 ///自キャラ
 ///</summary>
-class Player {
+class Player:public Collider{
 
 	public:
 		///<summary>
@@ -41,9 +42,9 @@ class Player {
 	    /// </summary>
 	    ~Player();
 
-		Vector3 GetWorldPosition();
+		Vector3 GetWorldPosition()override;
 
-		void OnCollision();
+		void OnCollision()override;
 	    const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 	private:
