@@ -8,18 +8,13 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 	velocity_ = velocity;
-	stateManager_ = new EnemyStateManager();
-	stateManager_->Initialize(this);
+
+	state_ = new EnemyStateApproach();
 }
 
 void Enemy::Update() {
+	state_->Update(this);
 	worldTransform_.UpdateMatrix();
-	stateManager_->Update();
-	
-}
-
-void Enemy::Approach() {
-	
 }
 
 void Enemy::Draw(const ViewProjection& view) {
@@ -30,12 +25,4 @@ void Enemy::Move(Vector3 velocity) {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 }
 
-void Enemy::Leave() {
-
-	
-}
-
-void (Enemy::*Enemy::EfuncTable[])() = {
-    &Enemy::Approach, &Enemy::Leave
-
-};
+void Enemy::StateChange(IEnemyState* newState) { state_ = newState; }

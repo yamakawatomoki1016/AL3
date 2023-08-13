@@ -1,11 +1,8 @@
-#include "EnemyStateApproach.h"
-#include "EnemyStateManager.h"
 #include "EnemyStateLeave.h"
 #include "Enemy.h"
+#include "EnemyStateApproach.h"
 
-void EnemyStateLeave::Update() {
+void EnemyStateLeave::Update(Enemy* enemy) {
 	Vector3 kCharctorSpeed = {-0.5f, 0.5f, 0.0f};
-	enemy_->Move(kCharctorSpeed);
+	enemy->Move(kCharctorSpeed);
 }
-
-void EnemyStateLeave::Initialize(Enemy* enemy) { enemy_ = enemy; }

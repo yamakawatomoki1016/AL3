@@ -112,7 +112,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyStateApproach.cpp" />
     <ClCompile Include="EnemyStateLeave.cpp" />
-    <ClCompile Include="EnemyStateManager.cpp" />
     <ClCompile Include="IEnemyState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -146,7 +145,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyStateApproach.h" />
     <ClInclude Include="EnemyStateLeave.h" />
-    <ClInclude Include="EnemyStateManager.h" />
     <ClInclude Include="IEnemyState.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="MathFunction.h" />

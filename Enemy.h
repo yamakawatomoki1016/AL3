@@ -2,7 +2,8 @@
 #include "MathFunction.h"
 #include "Model.h"
 #include "WorldTransform.h"
-#include "EnemyStateManager.h"
+#include "EnemyStateApproach.h"
+#include "IEnemyState.h"
 
 /// <summary>
 /// 敵
@@ -19,22 +20,17 @@ public:
 
 	Vector3 EnemyGetPos() { return worldTransform_.translation_; }
 
+	void StateChange(IEnemyState* newState);
+
 private:
 	// 行動フェーズ
-	enum class Phase {
-		Approach, // 接近する
-		Leave,    // 離脱する
-		start,    // 初期
-	};
+
 	WorldTransform worldTransform_;
 	Model* model_;
 	uint32_t texturehandle_;
-	//フェーズ
-	Phase phase_ = Phase::Approach;
-	Vector3 velocity_;
-	void Approach();
-	void Leave();
-	static void (Enemy::*EfuncTable[])();
-	EnemyStateManager* stateManager_;
-};
+	// フェーズ
 
+	Vector3 velocity_;
+
+	IEnemyState* state_;
+};
