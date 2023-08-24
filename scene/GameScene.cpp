@@ -37,7 +37,7 @@ void GameScene::Initialize() {
 	player_->SetGameScene(this);
 
 	//敵の生成
-	EnemyPop({6.0f, 0.0f, 30.0f});
+	EnemyPop({8.0f, 0.0f, 30.0f});
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 	skydome_ = new Skydome();

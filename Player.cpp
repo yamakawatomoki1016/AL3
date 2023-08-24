@@ -180,8 +180,8 @@ void Player::Update(const ViewProjection viewProjection) {
 	//コントローラーの場合
 	Vector2 spritePosition = sprite2DReticle_->GetPosition();
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		move.x = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
-		move.y = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+		move.x = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 11.0f;
+		move.y = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 11.0f;
 		spritePosition.x += move.x;
 		spritePosition.y -= move.y;
 		sprite2DReticle_->SetPosition(spritePosition);
