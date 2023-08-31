@@ -131,12 +131,12 @@ void Player::Update(const ViewProjection viewProjection) {
 	// アフィン変換行列の作成
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.UpdateMatrix();
-	// ImGuiスライダー
-	ImGui::Begin("PlayerDebug");
-	ImGui::Text("DebugCamera Toggle : 0");
-	ImGui::SliderFloat3("Positions", inputFloat3, -20.0f, 20.0f);
-	// ImGui終わり
-	ImGui::End();
+	//// ImGuiスライダー
+	//ImGui::Begin("PlayerDebug");
+	//ImGui::Text("DebugCamera Toggle : 0");
+	//ImGui::SliderFloat3("Positions", inputFloat3, -20.0f, 20.0f);
+	//// ImGui終わり
+	//ImGui::End();
 
 	// 移動限界座標
 	const float kMoveLimitX = 34;
@@ -200,13 +200,13 @@ void Player::Update(const ViewProjection viewProjection) {
     worldTransform3DReticle_.translation_ = Add(posNear, Multiply(kDistancetestObject, mouseDirection));
     worldTransform3DReticle_.UpdateMatrix();
 
-	ImGui::Begin("Player");
+	/*ImGui::Begin("Player");
 	ImGui::Text("2DReticle:(%f,%f)", sprite2DReticle_->GetPosition().x, sprite2DReticle_->GetPosition().y);
 	ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
 	ImGui::Text("Far:(%+.2f,%+.2f,%+.2f)", posFar.x, posFar.y, posFar.z);
 	ImGui::Text("3DRetixle:(%+.2f,%+.2f,%.2f)", worldTransform3DReticle_.translation_.x,
 	    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
-	ImGui::End();
+	ImGui::End();*/
 
 	
 }
